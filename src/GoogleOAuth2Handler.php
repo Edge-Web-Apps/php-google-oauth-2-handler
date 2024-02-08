@@ -11,15 +11,21 @@ class GoogleOAuth2Handler
     private $scopes;
     private $refreshToken;
     private $client;
-    
+    private $redirectUrl;
+    private $accessType;
+    private $approvalPrompt;
+
     public $authUrl;
 
-    public function __construct($clientId, $clientSecret, $scopes, $refreshToken = '')
+    public function __construct($clientId, $clientSecret, $scopes, $refreshToken = '', $redirectUrl = 'urn:ietf:wg:oauth:2.0:oob', $accessType = 'offline', $approvalPrompt = 'force' )
     {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->scopes = $scopes;
         $this->refreshToken = $refreshToken;
+        $this->redirectUrl = $redirectUrl;
+        $this->accessType = $accessType;
+        $this->approvalPrompt = $approvalPrompt;
 
         $this->setupClient();
     }
@@ -30,9 +36,9 @@ class GoogleOAuth2Handler
 
         $this->client->setClientId($this->clientId);
         $this->client->setClientSecret($this->clientSecret);
-        $this->client->setRedirectUri('urn:ietf:wg:oauth:2.0:oob');
-        $this->client->setAccessType('offline');
-        $this->client->setApprovalPrompt('force');
+        $this->client->setRedirectUri($this->redirectUrl);
+        $this->client->setAccessType($this->accessType);
+        $this->client->setApprovalPrompt($this->approvalPrompt);
 
         foreach($this->scopes as $scope)  {
             $this->client->addScope($scope);
