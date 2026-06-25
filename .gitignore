@@ -1,2 +1,5 @@
 /vendor/
 composer.lock
+.idea/encodings.xml
+*.xml
+.idea/php-google-oauth-2-handler.iml
